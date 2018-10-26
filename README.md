@@ -715,6 +715,46 @@ object AkkaBuild {
 }
 ```
 
+Using a Dependencies.scala file:
+
+```
+Tracking dependencies in one place
+One way of using the fact that .scala files under project becomes part of the
+build definition is to create project/Dependencies.scala to track dependencies
+in one place.
+
+import sbt._
+object Dependencies {
+// Versions
+lazy val akkaVersion = "2.3.8"
+// Libraries
+85
+val akkaActor = "com.typesafe.akka" %% "akka-actor" % akkaVersion
+val akkaCluster = "com.typesafe.akka" %% "akka-cluster" % akkaVersion
+val specs2core = "org.specs2" %% "specs2-core" % "2.4.17"
+// Projects
+val backendDeps =
+Seq(akkaActor, specs2core % Test)
+}
+
+The Dependencies object will be available in build.sbt. To use the vals under
+it easier, import Dependencies._.
+
+import Dependencies._
+lazy val commonSettings = Seq(
+version := "0.1.0",
+scalaVersion := "2.12.2"
+)
+lazy val backend = (project in file("backend"))
+.settings(
+commonSettings,
+libraryDependencies ++= backendDeps
+)
+
+This technique is useful when you have a multi-project build that’s getting large,
+and you want to make sure that subprojects to have consistent dependencies.
+```
+
 Dependencies:
 
 ```
