@@ -424,6 +424,26 @@ def akkaModule(name: String): Project =
     .settings(akka.AkkaBuild.buildSettings)
 ```
 
+Local build:
+
+```
+https://github.com/akka/akka/blob/177ac666da323e8af07a35159f35c308e873b585/akka-actor/build.sbt
+
+import akka.{ AkkaBuild, Formatting, OSGi, Dependencies, Version }
+
+AkkaBuild.defaultSettings
+Formatting.formatSettings
+OSGi.actor
+Dependencies.actor
+Version.versionSettings
+unmanagedSourceDirectories in Compile += {
+  val ver = scalaVersion.value.take(4)
+  (scalaSource in Compile).value.getParentFile / s"scala-$ver"
+}
+
+enablePlugins(spray.boilerplate.BoilerplatePlugin)
+```
+
 Akka Build:
 
 ```
