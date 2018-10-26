@@ -715,6 +715,20 @@ object AkkaBuild {
 }
 ```
 
+Using Build.scala:
+
+```
+
+- The recommended approach is to define most settings in a multi-project
+build.sbt file, and using project/*.scala files for task implementations or
+to share values, such as keys. The use of .scala files also depends on how
+comfortable you or your team are with Scala.
+
+- put most of your configuration in build.sbt, but use .scala build definition
+files for defining classes and larger task implementations.
+
+```
+
 Using a Dependencies.scala file:
 
 ```
